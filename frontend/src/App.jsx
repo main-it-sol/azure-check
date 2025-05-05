@@ -26,6 +26,9 @@ function App() {
     }
   }
 
+  const redirect = window.location.pathname
+  const provider = 'github'
+
   return (
     <>
       <div>
@@ -36,8 +39,11 @@ function App() {
           <img src={reactLogo} className="logo react" alt="React logo" />
         </a>
       </div>
-      <h1>Vite + React</h1>
+      <h1>Azure WebApps</h1>
       <div className="card">
+      <a href={`/.auth/login/${provider}?post_login_redirect_uri=${redirect}`}>
+          Login
+        </a>
         <button onClick={() => setCount((count) => count + 1)}>
           count is {count}
         </button>
