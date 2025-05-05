@@ -44,6 +44,7 @@ function App() {
       <a href={`/.auth/login/${provider}?post_login_redirect_uri=${redirect}`}>
           Login
         </a>
+        <a href={`/.auth/logout?post_logout_redirect_uri=${redirect}`}>Logout</a>
         <button onClick={() => setCount((count) => count + 1)}>
           count is {count}
         </button>
