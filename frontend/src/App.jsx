@@ -6,11 +6,15 @@ import './App.css'
 function App() {
   const [count, setCount] = useState(0)
   const [userInfo, setUserInfo] = useState()
+  const [products, setProducts] = useState([])
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState(null)
 
   useEffect(() => {
     (async () => {
       setUserInfo(await getUserInfo())
     })();
+    fetchProducts()
   }, []);
 
   async function getUserInfo() {
@@ -23,6 +27,22 @@ function App() {
     } catch (error) {
       console.error('No profile could be found');
       return undefined;
+    }
+  }
+
+  // Fetch products from the API
+  async function fetchProducts() {
+    setLoading(true)
+    setError(null)
+    try {
+      const response = await fetch('/api/products')
+      if (!response.ok) throw new Error('Failed to fetch products')
+      const data = await response.json()
+      setProducts(data)
+    } catch (err) {
+      setError(err.message)
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -53,6 +73,17 @@ function App() {
         <p>
           Edit <code>src/App.jsx</code> and save to test HMR
         </p>
+        <hr />
+        <h2>Products</h2>
+        {loading && <p>Loading products...</p>}
+        {error && <p style={{color: 'red'}}>Error: {error}</p>}
+        <ul>
+          {products.map(product => (
+            <li key={product.id}>
+              <strong>{product.name}</strong>: {product.description} (Qty: {product.quantity})
+            </li>
+          ))}
+        </ul>
       </div>
       <p className="read-the-docs">
         Click on the Vite and React logos to learn more
