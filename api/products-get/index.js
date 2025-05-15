@@ -5,7 +5,7 @@ async function getUserInfo() {
       const response = await fetch('/.auth/me');
       const payload = await response.json();
       const { clientPrincipal } = payload;
-      console.log('Client Principal:', clientPrincipal);
+      console.log('User Info:', clientPrincipal);
       return clientPrincipal;
     } catch (error) {
       console.error('No profile could be found');
@@ -17,7 +17,11 @@ module.exports = async function (context, req) {
   try {
     // Get user info
     const userInfo = await getUserInfo();
-    console.log('User Info:', userInfo);
+    if (!userInfo || userInfo.userDetails == 'main-it-sol') {
+      context.res.status(401).send('Unauthorized');
+      return;
+    }
+
     const products = data.getProducts();
     context.res.status(200).json(products);
   } catch (error) {
