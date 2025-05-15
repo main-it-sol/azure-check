@@ -15,12 +15,14 @@ async function getUserInfo() {
 
 module.exports = async function (context, req) {
   try {
+    // simple check user info, can be replaced with a more complex check, like checking roles
     // Get user info
-    const userInfo = await getUserInfo();
-    if (!userInfo || userInfo.userDetails == 'main-it-sol') {
-      context.res.status(401).send('Unauthorized');
-      return;
-    }
+    // const userInfo = await getUserInfo();
+    
+    // if (!userInfo || userInfo.userDetails == 'main-it-sol') {
+    //   context.res.status(401).send('Unauthorized');
+    //   return;
+    // }
 
     const products = data.getProducts();
     context.res.status(200).json(products);
